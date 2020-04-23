@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+   <mapper namespace="com.zero.mfboard.dao.IMFBoardDao">
+   	
+   	
+   		 <!-- 공식레시피 메인 데이터  -->
+   	 <select id="getMFBoardList" parameterType="String"
+				resultType="com.zero.mfboard.vo.MFBoardVO">
+				
+				SELECT
+					     mf_num
+					    , mf_name
+					    , mf_category
+					    , mf_love
+    
+					FROM
+					    mf_board
+			</select>
+			
+			
+			
+			 <!-- 공식레시피 뷰 페이지 데이터  -->
+			<select id="getMFBoard" parameterType="int"
+				resultType="com.zero.mfboard.vo.MFBoardVO">
+				
+				SELECT
+					      mf_code
+					    , mf_name
+					    , mf_category
+					    , mf_num
+					    , mf_hit
+					    , TO_CHAR(mf_reg_date,'YYYY.MM.DD') AS mf_reg_date
+					    , mf_love
+					    , mf_link
+					    , mf_mater
+					    , mf_recipe1
+					    , mf_recipe2
+					    , mf_recipe3
+					    , mf_recipe4
+					    , mf_recipe5
+					    , mf_recipe6
+					    , mf_recipe7
+					    , mf_recipe8
+					    , mf_recipe9
+					    , mf_recipe10
+					    , mf_s_code
+				 FROM
+					    mf_board
+			  WHERE mf_num = #{mfNum}
+						
+				
+   	  </select>
+   	
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   </mapper>
+

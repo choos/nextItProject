@@ -1,0 +1,14 @@
+package com.zero.market.web;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/market")
+public class MarketViewController {
+	
+	@RequestMapping("/marketView")
+	public String main() {
+		return "/market/marketView";
+	}
+}

@@ -1,0 +1,36 @@
+package com.zero.ufboard.web;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.zero.ufboard.service.IUFBoardService;
+import com.zero.ufboard.vo.UFBoardVO;
+import com.zero.ufboard.vo.UFSearchVO;
+
+@Controller
+@RequestMapping("/user")
+public class userMainController {
+	@Autowired
+	private IUFBoardService iUFBoardService;
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@RequestMapping("userMain")
+	public String main(ModelMap model, UFSearchVO searchVO) throws Exception {
+		
+		logger.debug("debug searchVO : {}", searchVO);
+		List<UFBoardVO> board = iUFBoardService.getBoardList(searchVO);
+		
+		model.addAttribute("board", board);
+		model.addAttribute("searchVO", searchVO);
+		
+		 return "/user/userMain";
+	}
+	
+}

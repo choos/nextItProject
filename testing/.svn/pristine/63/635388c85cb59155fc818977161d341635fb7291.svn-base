@@ -1,0 +1,31 @@
+package com.zero.reply.vo;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.zero.common.vo.PagingVO;
+
+@SuppressWarnings("serial")
+public class ReplySearchVO extends PagingVO {
+	
+	
+	private static final long SerialVersionID = 1L;
+
+	private String srSCode;        /* 리뷰남기는상품코드 */
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public String getSrSCode() {
+		return srSCode;
+	}
+
+	public void setSrSCode(String srSCode) {
+		this.srSCode = srSCode;
+	}
+
+	
+	
+	
+}

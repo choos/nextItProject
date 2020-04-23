@@ -1,0 +1,16 @@
+package com.zero.market.vo;
+
+public class MarketSearchVO {
+
+	private String searchCategory ; 		// 검색어
+
+	public String getsearchCategory() {
+		return searchCategory;
+	}
+
+	public void setsearchCategory(String searchCategory) {
+		this.searchCategory = searchCategory;
+	}
+	
+	
+}

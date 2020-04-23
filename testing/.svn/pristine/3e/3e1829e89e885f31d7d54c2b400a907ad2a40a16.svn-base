@@ -1,0 +1,29 @@
+이 폴더에 ***.xml로 매핑하시면 됩니다
+ex) 스터디4 mapper 파일 보시면 어느정도 대충 감이 올꺼라고 기도합니당.
+
+<mapper namespace="com.study.free.dao.IFreeBoardDao">
+	<sql id="whereSerchClause">
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchWord) and
+				 @org.apache.commons.lang3.StringUtils@isNotBlank(searchType)">
+			<choose>
+				<when test="searchType == 'ID'">
+					AND MEM_ID like '%' || #{searchWord} || '%'
+				</when>
+				<when test="searchType == 'NM'">
+					AND MEM_NAME like '%' || #{searchWord} || '%'
+				</when>
+				<when test="searchType == 'AD'">
+					AND MEM_ADD1 like '%' || #{searchWord} || '%'
+				</when>
+			</choose>	
+		</if>
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchCategory)">
+			AND MEM_JOB= #{searchCategory}
+		</if>
+	</sql>
+</mapper>
+이런 종류의 파일을 여기에 작성하시고 어노테이션 잘 등록해주셔서 정보를 주입하셔야합니다.
+**ServiceImpl.java @서비스 등록했는지
+**Controller.java 에 @Controller 잘 등록했는지 그리고 주입해야하는 거 생성자로 하지않고 @Autowired로 했는가
+**Dao.java 에 @Mapper 했나요
+

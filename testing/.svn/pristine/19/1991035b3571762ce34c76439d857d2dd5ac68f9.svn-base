@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- reply.xml -->
+  	<!-- namespace 는 해당 인터페이스 완전한 이름을 사용 -->
+  <mapper namespace="com.zero.reply.dao.IReplyDao">
+ 
+ 	<select id="getReplyCount" parameterType="com.zero.reply.vo.ReplySearchVO"
+	  			resultType="int">
+				 SELECT count(*)         
+			    FROM SALES_REVIEW				
+			   WHERE SR_S_CODE = #{srSCode}
+	</select>
+	
+	<select id="getReplyList" parameterType="com.zero.reply.vo.ReplySearchVO"
+  				resultType="com.zero.reply.vo.ReplyVO">
+  				
+				SELECT
+				      sr_num
+				    , sr_s_code
+				    , sr_mem_id
+				    , sr_content
+				    , sr_love
+				    , sr_reg_date
+				    , sr_p_quantity
+				    , sr_content_img
+				FROM
+				    sales_review  a , member b
+			 WHERE a.sr_mem_id = b.mem_id
+				 AND SR_S_CODE = #{srSCode}
+			 ORDER BY sr_num DESC
+				   				
+ 	</select>
+ 
+ 
+  <select id="getReply" 
+	  				parameterType="com.zero.reply.vo.ReplyVO"
+	  				resultType="com.zero.reply.vo.ReplyVO">
+	  		
+	  		SELECT
+				      sr_num
+				    , sr_s_code
+				    , sr_mem_id
+				    , sr_content
+				    , sr_love
+				    , sr_reg_date
+				    , sr_p_quantity
+				    , sr_content_img
+				FROM
+				    sales_review  a , member b
+			 WHERE a.sr_mem_id = b.mem_id		
+	  		 AND sr_num = #{srNum}
+ 
+  </select>
+ 
+ 
+  <insert id="insertReply" parameterType="com.zero.reply.vo.ReplyVO">
+ 
+			INSERT INTO sales_review (
+			      												sr_num , sr_s_code , sr_mem_id
+			    												, sr_content , sr_love , sr_reg_date
+			  												  , sr_p_quantity , sr_content_img
+																 ) VALUES (
+			       											review_seq.nextval , #{srSCode} , #{srMemId}
+			    												, #{srContent} , #{srLove} , sysdate
+			    												, #{srPQuantity} , #{srContentImg}
+																  )
+ 
+  </insert>
+  										
+  
+  <insert id="insertFile" parameterType="hashMap">
+  		
+ 				INSERT INTO sales_review(
+  															sr_content_img
+  										)VALUES ( #{srContentImg} )
+  
+
+  </insert>
+  
+  
+  
+  <select id="getReplyMemberCount" parameterType="com.zero.purchase.vo.PurchaseSearchVO"
+	  			resultType="int">
+				 SELECT count(*)         
+			    FROM PURCHASE_LIST				
+			   WHERE P_S_CODE = #{searchPCode}
+			     AND P_M_ID = #{userId}
+	</select>
+	  
+  
+
+ 	<update id="updateReply" parameterType="com.zero.reply.vo.ReplyVO">
+					UPDATE sales_review
+			   		 SET sr_content  =  #{srContent} ,
+			       			sr_mod_date = sysdate   
+			 		 WHERE sr_num = #{srNum}   
+					
+		</update>
+		
+		
+		<delete id="deleteReply" parameterType="com.zero.reply.vo.ReplyVO">
+					DELETE FROM sales_review
+ 					 WHERE sr_num = #{srNum}  
+		
+		</delete>
+ 
+ 
+ 
+ 
+ 
+ 
+  </mapper>

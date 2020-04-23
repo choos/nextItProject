@@ -1,0 +1,18 @@
+package com.zero.careFridge.service;
+
+import java.util.List;
+
+import com.zero.common.exception.BizException;
+import com.zero.foodList.vo.FoodListVO;
+import com.zero.shoppingCart.vo.CartSearchVO;
+import com.zero.ufboard.vo.UFBoardVO;
+
+public interface ICareFridgeService {
+	
+	public List<FoodListVO> getFoodList() throws BizException;
+	
+	public List<FoodListVO> getFood(String food) throws BizException;
+	
+	public List<UFBoardVO> getRecipeList(String foodNameList) throws BizException;
+
+}

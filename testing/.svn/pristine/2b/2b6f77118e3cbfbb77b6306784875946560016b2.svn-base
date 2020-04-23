@@ -1,0 +1,19 @@
+package com.zero.QNA.service;
+
+import java.util.List;
+
+import com.zero.QNA.vo.QANVO;
+import com.zero.common.exception.BizException;
+
+public interface IQNAService {
+	
+	public List<QANVO> getQNACategory(String faCategory) throws BizException;
+	
+	public List<QANVO> getQNAList() throws BizException;
+
+	public void insertQNARegist(QANVO qanVO) throws BizException;
+    
+	public int updateQNA(QANVO qanVO) throws BizException;
+	    
+	public int deleteQNA(QANVO qanVO) throws BizException;
+}

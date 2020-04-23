@@ -1,0 +1,17 @@
+package com.zero.ufboard.service;
+
+import java.util.List;
+
+import com.zero.common.exception.BizException;
+import com.zero.ufboard.vo.UFBoardVO;
+import com.zero.ufboard.vo.UFSearchVO;
+
+public interface IUFBoardService {
+
+
+	public List<UFBoardVO> getBoardList(UFSearchVO searchVO) throws BizException;
+
+	public UFBoardVO getBoard(int ufNum) throws BizException;
+
+
+}

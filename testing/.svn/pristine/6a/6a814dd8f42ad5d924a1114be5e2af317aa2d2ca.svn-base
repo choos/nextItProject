@@ -1,0 +1,93 @@
+package com.zero.QNA.vo;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+public class QANVO {
+	private  int qNum;               /*PK 1대1 문의 번호*/
+	private  String qTitle;          /*1대1 문의 제목*/
+	private  String qCategory;       /*1대1 문의 분류*/
+	private  String qMId;            /*1대1 문의자 아이디*/
+	private  String qIp;             /*1대1 문의자 ip*/
+	private  String qRegDate;        /*1대1 문의 작성 일시*/
+	private  String qModDate;        /*1대1 문의 수정 일시*/
+	private  String qDelYn;          /*1대1 문의 삭제 여부*/
+	private  String qContent;        /*1대1 문의 내용*/
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder. reflectionToString(this);
+	}
+
+	public int getqNum() {
+		return qNum;
+	}
+
+	public String getqTitle() {
+		return qTitle;
+	}
+
+	public String getqCategory() {
+		return qCategory;
+	}
+
+	public String getqMId() {
+		return qMId;
+	}
+
+	public String getqIp() {
+		return qIp;
+	}
+
+	public String getqRegDate() {
+		return qRegDate;
+	}
+
+	public String getqModDate() {
+		return qModDate;
+	}
+
+	public String getqDelYn() {
+		return qDelYn;
+	}
+
+	public String getqContent() {
+		return qContent;
+	}
+
+	public void setqNum(int qNum) {
+		this.qNum = qNum;
+	}
+
+	public void setqTitle(String qTitle) {
+		this.qTitle = qTitle;
+	}
+
+	public void setqCategory(String qCategory) {
+		this.qCategory = qCategory;
+	}
+
+	public void setqMId(String qMId) {
+		this.qMId = qMId;
+	}
+
+	public void setqIp(String qIp) {
+		this.qIp = qIp;
+	}
+
+	public void setqRegDate(String qRegDate) {
+		this.qRegDate = qRegDate;
+	}
+
+	public void setqModDate(String qModDate) {
+		this.qModDate = qModDate;
+	}
+
+	public void setqDelYn(String qDelYn) {
+		this.qDelYn = qDelYn;
+	}
+
+	public void setqContent(String qContent) {
+		this.qContent = qContent;
+	}
+	
+}

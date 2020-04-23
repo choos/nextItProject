@@ -1,0 +1,145 @@
+package com.zero.shoppingCart.web;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.zero.shoppingCart.service.ICartService;
+import com.zero.shoppingCart.vo.CartVO;
+
+@Controller
+@RequestMapping("/shoppingCart")
+public class CartController {
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+	@Autowired
+	private ICartService cartService;
+
+	@RequestMapping(value = "/showCart",  method = RequestMethod.GET)
+	public String cartShow(ModelMap model, CartVO vo, HttpSession session) {
+		try {
+			logger.debug("USER_INFO = {}", session.getAttribute("USER_INFO"));
+			logger.debug("CART_CODE = {}", session.getAttribute("CART_CODE"));
+			logger.debug("GET 방식");
+			vo.setsCCode((String) session.getAttribute("CART_CODE"));
+
+			List<CartVO> list = cartService.getCartList(vo);
+			model.addAttribute("list", list);
+
+			return "/shoppingCart/showCart";
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+
+	@RequestMapping(value = "/showCart",  method = RequestMethod.POST)
+	public String deleteShow(ModelMap model, String[] checkingVal, HttpSession session) {
+		try {
+			logger.debug("SHOWCART_POST 방식");
+			logger.debug("USER_INFO = {}", session.getAttribute("USER_INFO"));
+			logger.debug("CART_CODE = {}", session.getAttribute("CART_CODE"));
+			CartVO cart = new CartVO();
+			cart.setsCCode((String) session.getAttribute("CART_CODE"));
+			for(int i = 0; i < checkingVal.length; i++) {
+				logger.debug("checkingVal = {}", checkingVal[i]);
+				cart.setsCSCode(checkingVal[i]);
+				cartService.removeList(cart);
+			}
+			cart.setsCSCode(null);
+			List<CartVO> list = cartService.getCartList(cart);
+			model.addAttribute("list", list);
+			
+			return "/shoppingCart/showCart";
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	@RequestMapping(value = "/insertCart")
+	public String insertCart(ModelMap model, HttpSession session, CartVO vo, @RequestParam("qty") int qty,
+			@RequestParam("sCode") String sCode) {
+		try {
+			//장바구니 코드가 있는데 insert를 해야하는 경우를 구분하기 위해 사용
+			boolean insertUpdate = false;
+			logger.debug("qty = {}", qty);
+			logger.debug("sCode = {}", sCode);
+			logger.debug("CART_CODE = {}", session.getAttribute("CART_CODE"));
+			
+			// 상품 코드를 기반으로 리스트를 찾음
+			vo.setsCSCode(sCode);
+			List<CartVO> list = cartService.getCartList(vo);
+			vo.setsCQuantity(qty);
+			
+			// 세션에 장바구니코드가 있을 시 실행
+			if (session.getAttribute("CART_CODE") != null) {
+				// 상품을 넣은적이 없을 때 for문이 돌지 않게 설정
+				if(list.size() == 0) {
+					insertUpdate = true;
+				} else {
+					// 리스트에 가지고있는 장바구니 코드와 상품 코드가 있는지 확인
+					for (int i = 0; i < list.size(); i++) {
+						if (list.get(i).getsCCode().equals(session.getAttribute("CART_CODE"))
+								&& list.get(i).getsCSCode().equals(sCode)) {
+							logger.debug("장바구니 코드 NOT NULL update 실행 시작");
+							// vo에 장바구니 코드 적재
+							vo.setsCCode((String) session.getAttribute("CART_CODE"));
+							// 장바구니 코드, 상품 코드를 기반으로 해당하는 열 업데이트
+							cartService.updateList(vo);
+							logger.debug("장바구니 코드 NOT NULL update 실행 완료");
+							// insert를 스킵하기 위해 false
+							insertUpdate = false;
+							break;
+						} else {
+							// insert 활성화를 위한 true
+							logger.debug("장바구니 코드는 있지만 상품을 장바구니에 넣은적이 없음");
+							insertUpdate = true;
+						}
+					}
+				}
+				// 장바구니 코드가 있는데 장바구니에 넣는 상품이 테이블에 없을 때 실행
+				if (insertUpdate == true) {
+					logger.debug("장바구니 코드 NOT NULL insert 실행 시작");
+					// vo에 장바구니 코드 적재
+					vo.setsCCode((String) session.getAttribute("CART_CODE"));
+					// vo의 장바구니 코드와 상품 코드, 개수를 기반으로 insert
+					cartService.insertList(vo);
+					logger.debug("CART_CODE_NOT_NULL = {}", session.getAttribute("CART_CODE"));
+					logger.debug("장바구니 코드 NOT NULL insert 실행 완료");
+				}
+
+			} else {
+				logger.debug("장바구니 코드 NULL insert 실행 시작");
+				// 장바구니 코드가 없을 때 실행
+				// 상품 코드와 개수를 기반으로 상품 코드 default 값으로 insert 실행
+				cartService.insertList(vo);
+				// 날짜 기반으로 검색해서 장바구니 코드 가져오기
+				list = cartService.getCartList(vo);
+				// 세선에 장바구니 코드 저장
+				session.setAttribute("CART_CODE", list.get(0).getsCCode());
+				logger.debug("CART_CODE_NULL = {}", session.getAttribute("CART_CODE"));
+				logger.debug("장바구니 코드 NULL insert 실행 완료");
+			}
+
+			return "redirect:/market/mm";
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+
+}

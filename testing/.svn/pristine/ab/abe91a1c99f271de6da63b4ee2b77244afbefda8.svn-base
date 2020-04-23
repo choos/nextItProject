@@ -1,0 +1,142 @@
+$(document).ready(
+		
+		
+		function goFood() {
+			params = "food=A003"
+			$.ajax({
+				type:"post"
+				,url:'<c:url value="/food/foodList"/>'
+				,dataType: 'json'
+				,data: params
+				,success: function(food) {
+					console.log("food", food);
+				}
+			});
+		}
+		
+)
+		
+		
+		/*function() {
+			$("#div1").on("click", function() {
+				$("#foodList1").css("display", "block");
+				$("#foodList2").css("display", "none");
+				$("#foodList3").css("display", "none");
+				$("#foodList4").css("display", "none");
+				$("#foodList5").css("display", "none");
+				$("#foodList6").css("display", "none");
+				$("#foodList7").css("display", "none");
+				$("#foodList8").css("display", "none");
+				$("#foodList9").css("display", "none");
+			});
+
+if (A001){
+$("#foodList1").css("display", "block");
+}
+if(A002){
+$("#foodList2").css("display", "block");
+}아니면
+$("#foodList1").css("display", "none");
+$("#foodList2").css("display", "none");
+$("#foodList3").css("display", "none");
+$("#foodList4").css("display", "none");
+$("#foodList5").css("display", "none");
+$("#foodList6").css("display", "none");
+$("#foodList7").css("display", "none");
+$("#foodList8").css("display", "none");
+$("#foodList9").css("display", "none");
+
+
+			$("#div2").on("click", function() {
+				$("#foodList1").css("display", "none");
+				$("#foodList2").css("display", "block");
+				$("#foodList3").css("display", "none");
+				$("#foodList4").css("display", "none");
+				$("#foodList5").css("display", "none");
+				$("#foodList6").css("display", "none");
+				$("#foodList7").css("display", "none");
+				$("#foodList8").css("display", "none");
+				$("#foodList9").css("display", "none");
+			});
+			$("#div3").on("click", function() {
+				$("#foodList1").css("display", "none");
+				$("#foodList2").css("display", "none");
+				$("#foodList3").css("display", "block");
+				$("#foodList4").css("display", "none");
+				$("#foodList5").css("display", "none");
+				$("#foodList6").css("display", "none");
+				$("#foodList7").css("display", "none");
+				$("#foodList8").css("display", "none");
+				$("#foodList9").css("display", "none");
+			});
+			$("#div4").on("click", function() {
+				$("#foodList1").css("display", "none");
+				$("#foodList2").css("display", "none");
+				$("#foodList3").css("display", "none");
+				$("#foodList4").css("display", "block");
+				$("#foodList5").css("display", "none");
+				$("#foodList6").css("display", "none");
+				$("#foodList7").css("display", "none");
+				$("#foodList8").css("display", "none");
+				$("#foodList9").css("display", "none");
+			});
+			$("#div5").on("click", function() {
+				$("#foodList1").css("display", "none");
+				$("#foodList2").css("display", "none");
+				$("#foodList3").css("display", "none");
+				$("#foodList4").css("display", "none");
+				$("#foodList5").css("display", "block");
+				$("#foodList6").css("display", "none");
+				$("#foodList7").css("display", "none");
+				$("#foodList8").css("display", "none");
+				$("#foodList9").css("display", "none");
+			});
+			$("#div6").on("click", function() {
+				$("#foodList1").css("display", "none");
+				$("#foodList2").css("display", "none");
+				$("#foodList3").css("display", "none");
+				$("#foodList4").css("display", "none");
+				$("#foodList5").css("display", "none");
+				$("#foodList6").css("display", "block");
+				$("#foodList7").css("display", "none");
+				$("#foodList8").css("display", "none");
+				$("#foodList9").css("display", "none");
+			});
+			$("#div7").on("click", function() {
+				$("#foodList1").css("display", "none");
+				$("#foodList2").css("display", "none");
+				$("#foodList3").css("display", "none");
+				$("#foodList4").css("display", "none");
+				$("#foodList5").css("display", "none");
+				$("#foodList6").css("display", "none");
+				$("#foodList7").css("display", "block");
+				$("#foodList8").css("display", "none");
+				$("#foodList9").css("display", "none");
+			});
+			$("#div8").on("click", function() {
+				$("#foodList1").css("display", "none");
+				$("#foodList2").css("display", "none");
+				$("#foodList3").css("display", "none");
+				$("#foodList4").css("display", "none");
+				$("#foodList5").css("display", "none");
+				$("#foodList6").css("display", "none");
+				$("#foodList7").css("display", "none");
+				$("#foodList8").css("display", "block");
+				$("#foodList9").css("display", "none");
+			});
+			$("#div9").on("click", function() {
+				$("#foodList1").css("display", "none");
+				$("#foodList2").css("display", "none");
+				$("#foodList3").css("display", "none");
+				$("#foodList4").css("display", "none");
+				$("#foodList5").css("display", "none");
+				$("#foodList6").css("display", "none");
+				$("#foodList7").css("display", "none");
+				$("#foodList8").css("display", "none");
+				$("#foodList9").css("display", "block");
+			});
+		
+		});*/
+		
+
+		

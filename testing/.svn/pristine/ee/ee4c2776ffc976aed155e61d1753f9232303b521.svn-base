@@ -1,0 +1,30 @@
+package com.zero.mfboard.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.zero.mfboard.vo.MFBoardVO;
+import com.zero.mfboard.vo.MFSearchVO;
+
+@Mapper
+public interface IMFBoardDao {
+
+	
+	public List<MFBoardVO> getMFBoardList(MFSearchVO searchVO) throws SQLException;
+	
+	
+	public MFBoardVO getMFBoard(int mfNum) throws  SQLException;
+	
+	
+	public int insertMarket(MFBoardVO mfboard) throws  SQLException;
+
+	
+	public int updateMarket (MFBoardVO mfboard) throws  SQLException;	
+	
+	
+	public int deleteMarket (MFBoardVO mfboard) throws  SQLException;
+	
+	
+}

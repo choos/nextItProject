@@ -1,0 +1,172 @@
+package com.zero.foodList.vo;
+
+import java.io.Serializable;
+import java.util.Map;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+public class FoodNameVO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+/*
+	private String 검은콩;
+	private String 대파;
+	private String 땅콩;
+	private String 참깨;
+	private String 잣;
+	private String 밀가루;
+	private String 꿀;
+	private String 달걀;
+	private String 오이;
+	private String 방울토마토;
+	private String 플레인요거트;
+	private String 두부;
+	private String 치즈;
+	private String 파인애플;
+	private String 단호박;
+	private String 느타리버섯;
+	private String 올리브유;
+	private String 가지;
+	private String 양파;
+	private String 감자;
+	private String 시금치;
+	private String 버터;
+	private String 우유;
+	private String 후추;
+	private String 고등어;
+	private String 호박;
+	private String 새송이버섯;
+	private String 파프리카;
+	private String 피망;
+	private String 간장;
+	private String 순두부;
+	private String 소금;
+	private String 애호박;
+	private String 표고버섯;
+	private String 당근;
+	private String 식초;
+	private String 오렌지;
+	private String 사과;
+	private String 블루베리;
+	private String 밤;
+	private String 은행;
+	private String 대추;
+	private String 만두피;
+	private String 브로콜리;
+	private String 숙주;
+	private String 닭가슴살;
+	private String 된장;
+	private String 참기름;
+	private String 쌀;
+	private String 곤약;
+	private String 고추장;
+	private String 멸치;
+	private String 마늘;
+	private String 호박고구마;
+	private String 고구마;
+	private String 다시마;
+	private String 배;
+	private String 고추;
+	private String 양상추;
+	private String 새싹채소;
+	private String 부추;
+	private String 피클;
+	private String 머스타드;
+	private String 토마토;
+	private String 건포도;
+	private String 흑임자;
+	private String 호두;
+	private String 관자;
+	private String 설탕;
+	private String 깻잎;
+	private String 겨자;
+	private String 북어채;
+	private String 녹차가루;
+	private String 쇠고기;
+	private String 닭;
+	private String 돼지고기;
+	private String 연두부;
+	private String 생크림;
+	private String 매실액;
+	private String 생강;
+	private String 스파게티;
+	private String 메추리알;
+	private String 아몬드;
+	private String 전분;
+	private String 연근;
+	private String 쪽파;
+	private String 콩;
+	private String 카놀라유;
+	private String 바나나;
+	private String 청국장;
+	private String 치커리;
+	private String 소면;
+	private String 청경채;
+	private String 오징어;
+	private String 목살;
+	private String 참치;
+	private String 카레;
+	private String 꽁치;
+	private String 청양고추;
+	private String 마요네즈;
+	private String 미나리;
+	private String 양송이버섯;
+	private String 팽이버섯;
+	private String 떡;
+	private String 코다리;
+	private String 레드와인;
+	private String 화이트와인;
+	private String 청주;
+	private String 식빵;
+	private String 등심;
+	private String 새우젓;
+	private String 복분자;
+	private String 베이컨;
+	private String 식용유;
+	private String 레몬;
+	private String 무;
+	private String 물엿;
+	private String 소시지;
+	private String 우엉;
+	private String 전복;
+	private String 녹말;
+	private String 연유;
+	private String 당면;
+	private String 앞다리살;
+	private String 삼겹살;
+	private String 쑥;
+	private String 문어;
+	private String 우렁이;
+	private String 배추;
+	private String 쭈꾸미;
+	private String 땅콩잼;
+	private String 딸기잼;
+	private String 연어;
+	private String 라이스페이퍼;
+	private String 아스파라거스;
+	private String 맛술;
+	private String 핫케익믹스;
+	private String 쿠키믹스;
+	private String 부침가루;*/
+	
+	private Map<String, String> myMap;
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public Map<String, String> getMyMap() {
+		return myMap;
+	}
+
+	public void setMyMap(Map<String, String> myMap) {
+		this.myMap = myMap;
+	}
+
+	
+	
+}

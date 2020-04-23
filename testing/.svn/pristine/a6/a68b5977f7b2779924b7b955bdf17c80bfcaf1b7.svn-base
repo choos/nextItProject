@@ -1,0 +1,32 @@
+package com.zero.purchase.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.zero.purchase.vo.PurchaseSearchVO;
+import com.zero.purchase.vo.PurchaseVO;
+
+@Mapper
+public interface IPurchaseDao {
+	
+	public int getBoardCount(PurchaseSearchVO searchVO) throws SQLException;
+	
+	public List<PurchaseVO> getPurchaseList(PurchaseSearchVO searchVO) throws SQLException;
+	
+	public int getPurchaseQty(PurchaseSearchVO searchVO) throws SQLException;
+
+	public int insertList(PurchaseVO list) throws SQLException;
+	
+	public String getReviewYN(PurchaseVO vo);
+
+	public int updateList(PurchaseVO list) throws SQLException;
+	
+	public int deleteList(PurchaseVO list) throws SQLException;
+	
+	public void purchaseInvenList(PurchaseVO purchaseVO) throws SQLException;
+
+	
+	
+}

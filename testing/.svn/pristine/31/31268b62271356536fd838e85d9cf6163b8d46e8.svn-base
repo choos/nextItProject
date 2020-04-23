@@ -1,0 +1,55 @@
+package com.zero.QNA.wep;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.zero.QNA.service.IQNAService;
+import com.zero.QNA.vo.QANVO;
+
+@Controller
+public class QNAController {
+	
+	@Autowired
+	IQNAService qnaService;
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+	@RequestMapping("QNA/QNA")
+	public String FAQList(ModelMap moderMap) {
+		List<QANVO> qanVO = qnaService.getQNAList();
+		moderMap.addAttribute("qanVO", qanVO);
+		return "QNA/QNA";
+	}
+	
+	@RequestMapping(value = "QNA/QNA", method = RequestMethod.GET, params = "faCategory")
+	public String GetFAQCategory(String qCategory, ModelMap moderMap) {
+		logger.debug("qCategory", qCategory);
+		List<QANVO> qanVO = qnaService.getQNACategory(qCategory);
+		moderMap.addAttribute("qanVO", qanVO);
+		return "QNA/QNA";
+	}
+	
+	
+	@RequestMapping("QNA/QNAFrom")
+	public String FAQForm() {
+		
+		return "QNA/QNAFrom";
+	}
+	
+	@RequestMapping("QNA/QNARegist")
+	public String FAQRegist(QANVO qanVO, ModelMap model) {
+		logger.debug("faqVO={}", qanVO);
+		qnaService.insertQNARegist(qanVO);
+		
+		return "QNA/QNA";
+	}
+	
+	
+}

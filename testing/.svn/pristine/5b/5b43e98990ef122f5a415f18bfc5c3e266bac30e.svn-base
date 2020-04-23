@@ -1,0 +1,43 @@
+package com.zero.myPage.web;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.zero.login.vo.UserVO;
+import com.zero.member.vo.MemberSearchVO;
+import com.zero.member.vo.MemberVO;
+import com.zero.myPage.service.IMyPageService;
+import com.zero.myPage.vo.MyPageVO;
+
+
+@Controller
+@RequestMapping("myPage")
+public class MypageController {
+	
+
+	@Autowired
+	private IMyPageService mypageService;
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@RequestMapping(value = "myPage", method = RequestMethod.GET )
+	public String myPage(ModelMap model, HttpSession session, MemberSearchVO searchVO, String memId, String memPass) throws Exception {
+		
+		UserVO member = (UserVO) session.getAttribute("USER_INFO");
+		
+		model.addAttribute("member", member);
+		
+		
+		return "myPage/myPage";
+	}
+	
+}

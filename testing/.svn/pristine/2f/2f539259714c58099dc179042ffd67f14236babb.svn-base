@@ -1,0 +1,56 @@
+package com.zero.FAQ.wep;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.zero.FAQ.service.IFAQService;
+import com.zero.FAQ.vo.FAQVO;
+
+@Controller
+public class FAQController {
+	
+	@Autowired
+	IFAQService faqService;
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+	@RequestMapping("FAQ/FAQ")
+	public String FAQList(ModelMap moderMap) {
+		List<FAQVO> faqvo = faqService.getFAQList();
+		moderMap.addAttribute("faqvo", faqvo);
+		return "FAQ/FAQ";
+	}
+	
+	@RequestMapping(value = "FAQ/FAQ", method = RequestMethod.GET, params = "faCategory")
+	public String GetFAQCategory(String faCategory, ModelMap moderMap) {
+		logger.debug("faCategory", faCategory);
+		List<FAQVO> faqvo = faqService.getFAQCategory(faCategory);
+		moderMap.addAttribute("faqvo", faqvo);
+		return "FAQ/FAQ";
+	}
+	
+	
+	@RequestMapping("FAQ/FAQFrom")
+	public String FAQForm() {
+		
+		return "FAQ/FAQFrom";
+	}
+	
+	@RequestMapping("FAQ/FAQRegist")
+	public String FAQRegist(FAQVO faqVO, ModelMap model) {
+		logger.debug("faqVO={}", faqVO);
+		faqService.insertFAQRegist(faqVO);
+		
+		return "FAQ/FAQ";
+	}
+	
+	
+}

@@ -1,0 +1,206 @@
+package com.zero.purchase.web;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.zero.login.vo.UserVO;
+import com.zero.market.service.IMarketService;
+import com.zero.market.vo.MarketVO;
+import com.zero.member.service.IMemberService;
+import com.zero.member.vo.MemberVO;
+import com.zero.purchase.service.IPurchaseService;
+import com.zero.purchase.vo.PurchaseSearchVO;
+import com.zero.purchase.vo.PurchaseVO;
+import com.zero.shoppingCart.service.ICartService;
+import com.zero.shoppingCart.vo.CartVO;
+
+@Controller
+@RequestMapping("/purchase")
+public class PurchaseController {
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+	@Autowired
+	private IPurchaseService purchaseService;
+	
+	@Autowired
+	private IMemberService memberService;
+	
+	@Autowired
+	private IMarketService iMarketService;
+	
+	@Autowired
+	private ICartService cartService;
+
+	@RequestMapping(value = "/purchaseList")
+	public String main(ModelMap model, PurchaseSearchVO searchVO, HttpSession session) {
+		try {
+			logger.debug("session = {}", session.getAttribute("USER_INFO"));
+
+			UserVO user = (UserVO) session.getAttribute("USER_INFO");
+
+			if (searchVO.getUserId() == null) {
+				searchVO.setUserId(user.getUserId());
+			}
+			// 월 일 0x일 포맷팅
+			if (searchVO.getStartMM() != null) {
+				if (Integer.parseInt(searchVO.getStartMM()) < 10) {
+					String needu = searchVO.getStartMM();
+					searchVO.setStartMM('0' + needu);
+				}
+				if (Integer.parseInt(searchVO.getEndMM()) < 10) {
+					String needu = searchVO.getEndMM();
+					searchVO.setEndMM('0' + needu);
+				}
+				if (Integer.parseInt(searchVO.getStartDD()) < 10) {
+					String needu = searchVO.getStartDD();
+					searchVO.setStartDD('0' + needu);
+				}
+				if (Integer.parseInt(searchVO.getEndDD()) < 10) {
+					String needu = searchVO.getEndDD();
+					searchVO.setEndDD('0' + needu);
+				}
+			}
+			
+			logger.debug("searchVO = {}", searchVO);
+			List<PurchaseVO> list = purchaseService.getPurchaseList(searchVO);
+			List<Boolean> reviewYN = new ArrayList<Boolean>();
+			for (int i = 0; i < list.size(); i++) {
+				reviewYN.add(purchaseService.getListReviewYN(list.get(i)));
+				logger.debug("reviewYN = {}", reviewYN.get(i));
+				model.addAttribute("reviewYN", reviewYN);
+			}
+			logger.info("list size = {}", list.size());
+
+			model.addAttribute("list", list);
+
+			return "/purchase/purchaseList";
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			e.printStackTrace();
+			return "redirect:/";
+
+		}
+	}
+
+	@RequestMapping(value = "/purchasePage", method = RequestMethod.GET)
+	public String purchaseInsertPage(ModelMap model, PurchaseSearchVO searchVO, HttpSession session,
+			@RequestParam("qty") int[] qty, @RequestParam("sCode") String sCode) {
+		logger.debug("qty = {}", qty);
+		logger.debug("sCode = {}", sCode);
+		
+		//memberVO를 불러오기위한 session에서 userId 뽑아오기
+		String userId = ((UserVO) session.getAttribute("USER_INFO")).getUserId();
+		logger.debug("userId = {}", userId);
+		
+		//post방식과 데이터 주는 방식을 맞추기 위해 list 선언 후 market 적재
+		List<MarketVO> list = new ArrayList<MarketVO>();
+		MemberVO mem = memberService.getMember(userId);
+		MarketVO market = iMarketService.getMarket(sCode);
+		logger.debug("qty = {}", qty[0]);
+		market.setsInven(qty[0]);
+		logger.debug("sPrice = {}", market.getsPrice());
+		
+		
+		list.add(market);
+		logger.debug("sPrice = {}", list.get(0).getsPrice());
+		
+		model.addAttribute("mem", mem);
+		model.addAttribute("market", list);
+		
+		return "/purchase/purchasePage";
+	}
+	@RequestMapping(value = "/purchasePage", method = RequestMethod.POST)
+	public String purchasePostInsertPage(ModelMap model, PurchaseSearchVO searchVO
+			, HttpSession session, String[] sCodeList, int[] quantyList) {
+		//memberVO를 불러오기위한 session에서 userId 뽑아오기
+		String userId = ((UserVO) session.getAttribute("USER_INFO")).getUserId();
+		logger.debug("userId = {}", userId);
+		logger.debug("sCodeList = {}", sCodeList);
+		logger.debug("quantyList = {}", quantyList);
+		
+		// for문으로 가져온 상품 코드와 수량을 넣어줄 리스트 선언
+		List<MarketVO> list = new ArrayList<MarketVO>();
+		
+		for (int i = 0; i < sCodeList.length; i++) {
+			MarketVO market = iMarketService.getMarket(sCodeList[i]);
+			market.setsInven(quantyList[i]);
+			list.add(market);
+		}
+		
+		MemberVO mem = memberService.getMember(userId);
+		
+		
+		
+		model.addAttribute("mem", mem);
+		model.addAttribute("market", list);
+		
+		return "/purchase/purchasePage";
+	}
+	
+	
+	@RequestMapping(value = "/purchaseDetail")
+	public String purchaseDetail(ModelMap model, @RequestParam("code") String searchPCode,HttpSession session, PurchaseSearchVO searchVO) {
+		logger.debug("sCode = {}", searchPCode);
+		String userId = ((UserVO) session.getAttribute("USER_INFO")).getUserId();
+		logger.debug("userId = {}", userId);
+		searchVO.setSearchPCode(searchPCode);
+		searchVO.setUserId(userId);
+		List<PurchaseVO> list = purchaseService.getPurchaseList(searchVO);
+		
+		model.addAttribute("list", list);
+		
+		return "/purchase/purchaseDetail";
+	}
+
+	@RequestMapping(value = "/purchaseEnd")
+	public String purchaseInsert(ModelMap model, PurchaseSearchVO searchVO, HttpSession session, PurchaseVO purchaseVO, String[] sCode, int[] quanty) {
+		//memberVO를 불러오기위한 session에서 userId 뽑아오기
+		String userId = ((UserVO) session.getAttribute("USER_INFO")).getUserId();
+		
+		logger.debug("userId = {}", userId);
+		logger.debug("length = {}", sCode.length);
+		logger.debug("CART_CODE = {}", (String) session.getAttribute("CART_CODE"));
+		
+		//구매한 목록을 장바구니에서 삭제하기 위해 장바구니 코드 호출
+		CartVO cart = new CartVO();
+		cart.setsCCode((String) session.getAttribute("CART_CODE"));
+		
+		for (int i = 0; i < sCode.length; i++) {
+			purchaseVO.setPSCode(sCode[i]);
+			purchaseVO.setPQuantity(quanty[i]);
+			purchaseService.registPurchase(purchaseVO);
+			
+			//구매 목록을 장바구니에서 삭제
+			cart.setsCSCode(sCode[i]);
+			try {
+				cartService.removeList(cart);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			purchaseService.purchaseInvenList(purchaseVO);
+		}
+		
+		MemberVO mem = memberService.getMember(userId);
+		
+		model.addAttribute("mem", mem);
+		model.addAttribute("quanty", quanty);
+		model.addAttribute("sCode", sCode);
+		model.addAttribute("vo", purchaseVO);
+		
+		return "/purchase/purchaseEnd";
+	}
+}
