@@ -1,0 +1,47 @@
+package com.zero.main.wep;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.zero.main.service.IMainService;
+import com.zero.market.vo.MarketVO;
+import com.zero.mfboard.vo.MFBoardVO;
+import com.zero.ufboard.vo.UFBoardVO;
+
+@Controller
+//@RequestMapping("/home") //디렉토리
+public class MainController {
+	
+	@Autowired
+	private IMainService iMainService;
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@RequestMapping("/home") //파일명
+	public String main(ModelMap model) throws Exception {
+
+		List<MFBoardVO> MFB = iMainService.getMFBoard();
+		
+		List<UFBoardVO> UFB = iMainService.getUFBoard();
+		
+		List<MarketVO> SB = iMainService.getSalesBoard();
+		
+		logger.debug("MFB={}", MFB);
+		logger.debug("UFB={}", UFB);
+		logger.debug("SB={}", SB);
+		
+		model.addAttribute("MFB", MFB);
+		model.addAttribute("UFB", UFB);
+		model.addAttribute("SB", SB);
+		
+		
+	//	return "/home/home";// /폴더명/파일명
+		return "/home/home";// /폴더명/파일명
+	}
+}

@@ -1,0 +1,170 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<%@include file="/WEB-INF/inc/common_header.jsp" %> 
+
+<title>FoodMarket</title>
+
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/css/main.css" />
+	<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/css/main.css" />
+<style type="text/css">
+.container {
+	border: 1px solid red;
+	padding: 50px 20px;
+	text-align: center;
+}
+</style>
+
+</head>
+<body>
+<%@include file="/WEB-INF/inc/top_menu.jsp" %>
+ 
+ 
+<div class="container" id="mycon" style="padding-top: 200px;" >
+ 
+ <div style="margin-left:300px; display: inline-block">
+ 	<img src="https://recipe1.ezmember.co.kr/cache/data/goods/19/05/19/1000001272/1000001272_detail_047.jpg"
+ 		style="width:400px; height:400px; padding-bottom: 150px">
+ </div>
+	<div class="s_view_info btn_layer" style="display: inline-block; margin-left:100px">
+		<h3>
+			<p>[MD추천] 26년전통 감칠맛 숙성 쭈꾸미볶음 350g</p>
+		</h3>
+		</div>
+		<!-- //layer_area -->
+		<div class="sub_info">전라도 대표 맛집~! 20년전통 숙성 쭈꾸미볶음!</div>
+		<div class="price_box">
+			<p class="dc">
+				67<small>%</small>
+			</p>
+			<p class="price" style="">
+				7,900<small id="won" style="">원</small>
+			</p>
+			<p class="del">24,000원</p>
+			<span class="target_sns_share"><a class="detail_share"
+				href="#lySns"><img alt="공유하기"
+					src="https://recipe1.ezmember.co.kr/img/mobile/icon_share9.png"
+					width="30" /></a></span>
+			<div class="price_add">
+				<dl class="info_delivery">
+					<dt>
+						<img alt="배송아이콘"
+							src="//recipe1.ezmember.co.kr/img/mobile/icon_delivery2.png"
+							style="vertical-align: middle; padding-right: 5px;" width="29" />배송비
+					</dt>
+					<dd>
+						2,500원 <input name="deliveryCollectFl" type="hidden" value="pre" />
+						(30,000원이상 무료배송)
+					</dd>
+				</dl>
+				<div class="info_ea">
+					<img alt="구매수아이콘"
+						src="http://recipe1.ezmember.co.kr/img/mobile/icon_pdt3.png"
+						style="vertical-align: middle; padding-right: 5px;" width="29" /><b>7,060</b>명
+					구매
+					<p class="cont_star"
+						style="display: inline-block; margin-left: 4px;">
+						<span class="star_img"><img
+							src="https://recipe1.ezmember.co.kr/img/mobile/icon_star2_on.png" /><img
+							src="https://recipe1.ezmember.co.kr/img/mobile/icon_star2_on.png" /><img
+							src="https://recipe1.ezmember.co.kr/img/mobile/icon_star2_on.png" /><img
+							src="https://recipe1.ezmember.co.kr/img/mobile/icon_star2_on.png" /><img
+							src="https://recipe1.ezmember.co.kr/img/mobile/icon_star2.png" /></span><span
+							class="star_ea">(388)</span>
+					</p>
+				</div>
+			</div>
+			<div class="option"></div>
+			<div class="price_total" style="padding-top: 0;">
+				<div class="item_choice_list">
+					<table border="0" cellpadding="0" cellspacing="0"
+						class="option_display_area">
+						<colgroup>
+							<col width="330px" />
+							<col />
+							<col width="80px" />
+							<col width="40px" />
+						</colgroup>
+						<tbody id="option_display_item_0">
+							<tr class="check optionKey_0">
+								<td class="cart_prdt_name"><input name="goodsNo[]"
+									type="hidden" value="1000001272" /> <input name="optionSno[]"
+									type="hidden" value="2519" /> <input name="goodsPriceSum[]"
+									type="hidden" value="7900" /> <input name="addGoodsPriceSum[]"
+									type="hidden" value="0" /> <input name="couponApplyNo[]"
+									type="hidden" value="" /> <input name="couponSalePriceSum[]"
+									type="hidden" value="" /> <input name="couponAddPriceSum[]"
+									type="hidden" value="" />
+									<div class="cart_tit_box">
+										<strong class="cart_tit"> <span>[MD추천] 26년전통
+												감칠맛 숙성 쭈꾸미볶음 350g</span> <span id="option_text_display_0"></span>
+										</strong>
+									</div> <!-- //cart_tit_box --></td>
+								<!-- //cart_prdt_name -->
+								<td><span class="count"> <span class="goods_qty">
+											<input class="text goodsCnt_0" data-key="0" data-stock="0"
+											data-value="1" name="goodsCnt[]"
+											onchange="goodsViewController.input_count_change(this, '1');return false;"
+											title="수량" type="text" value="1" /> <span>
+												<button class="up goods_cnt" title="증가" type="button"
+													value="up^|^0">증가</button>
+												<button class="down goods_cnt" title="감소" type="button"
+													value="dn^|^0">감소</button>
+										</span>
+									</span>
+								</span> <!-- //count --></td>
+								<td class="item_choice_price"><input
+									name="optionPriceSum[]" type="hidden" value="0" /> <input
+									name="option_price_0" type="hidden" value="0.00" /> <strong
+									class="option_price_display_0">7,900</strong>원</td>
+								<!-- //item_choice_price -->
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="item_price_cont">
+						<div class="end_price item_tatal_box" style="width: auto;">
+							<div class="price_total1">
+								총 상품금액 <span class="goods_total_price"
+									style="width: 110px; display: inline-block">7,900<b>원</b></span>
+							</div>
+							<div class="price_total1 total_discount dn">
+								총 할인금액 <span class="total_benefit_price"
+									style="width: 110px; display: inline-block"></span>
+							</div>
+							<div class="price_total2">
+								총 합계금액 <span class="total_price"
+									style="width: 110px; display: inline-block"> 7,900<b>원</b></span>
+							</div>
+						</div>
+						<!-- //item_tatal_box -->
+					</div>
+					<!-- //item_price_cont -->
+				</div>
+				<!-- //item_choice_list -->
+			</div>
+			<div class="btn_choice_box">
+				<div>
+					<!-- N:재입고 알림이 있을 때는 restock 클래스를 div에 같이 넣어주세요 -->
+					<button class="btn_add_cart" id="cartBtn" type="button">
+						<img src="//recipe1.ezmember.co.kr/img/mobile/icon_basket.png"
+							style="margin: -4px 5px 0 0; vertical-align: middle;" width="24" />장바구니
+					</button>
+					<button class="btn_add_wish" id="wishBtn" type="button">
+						<img src="//recipe1.ezmember.co.kr/img/mobile/icon_scrap3.png"
+							style="margin: -4px 5px 0 0; vertical-align: middle;" width="26" />찜하기
+					</button>
+					<button class="btn_add_order" type="button">바로 구매</button>
+				</div>
+			</div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>

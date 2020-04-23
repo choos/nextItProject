@@ -1,0 +1,82 @@
+package com.zero.ufboard.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.zero.common.exception.BizException;
+import com.zero.ufboard.dao.IUFBoardDao;
+import com.zero.ufboard.vo.UFBoardVO;
+import com.zero.ufboard.vo.UFSearchVO;
+import com.zero.util.FileUtils;
+
+@Service
+public class UFBoardServiceImpl implements IUFBoardService {
+	
+	@Resource(name="fileUtils")
+	private FileUtils fileUtils;
+	
+	@Inject
+	private IUFBoardDao dao;
+	
+	@Autowired
+	private IUFBoardDao ufBoardDao;
+
+	@Override
+	public List<UFBoardVO> getBoardList(UFSearchVO searchVO) throws BizException {
+		try {
+			
+			int rowCount = ufBoardDao.getBoardCount(searchVO);
+			System.out.println(searchVO);
+			searchVO.setTotalRowCount(rowCount);
+			searchVO.setting();
+			
+			return ufBoardDao.getBoardList(searchVO);
+		} catch (SQLException e) {
+			throw new BizException(e);
+		}
+	}
+
+	@Override
+	public UFBoardVO getBoard(int ufNum) throws BizException {
+		// TODO Auto-generated method stub
+		try {
+			return ufBoardDao.getBoard(ufNum);
+		} catch (SQLException e) {
+			throw new BizException("",e);
+		}
+	}
+
+	@Override
+	public void registBoard(UFBoardVO board) throws BizException {
+		// TODO Auto-generated method stub
+		ufBoardDao.insertBoard(board);
+	}
+
+	@Override
+	public void updateBoard(UFBoardVO board) throws BizException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void write(UFBoardVO boardVO, MultipartHttpServletRequest mpRequest) throws Exception {
+		dao.insertBoard(boardVO);
+		
+		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(boardVO, mpRequest); 
+		int size = list.size();
+		for(int i=0; i<size; i++){ 
+			dao.insertFile(list.get(i)); 
+		}
+
+	
+}
+
+}

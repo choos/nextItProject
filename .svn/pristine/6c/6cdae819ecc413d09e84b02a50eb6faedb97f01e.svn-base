@@ -1,0 +1,35 @@
+package com.zero.shoppingCart.vo;
+
+public class CartVO {
+	
+	private String SCCode;
+	private String SCSCode;
+	private String SCQuantity;
+	
+	
+	public String getSCCode() {
+		return SCCode;
+	}
+	public void setSCCode(String sCCode) {
+		SCCode = sCCode;
+	}
+	public String getSCSCode() {
+		return SCSCode;
+	}
+	public void setSCSCode(String sCSCode) {
+		SCSCode = sCSCode;
+	}
+	public String getSCQuantity() {
+		return SCQuantity;
+	}
+	public void setSCQuantity(String sCQuantity) {
+		SCQuantity = sCQuantity;
+	}
+	@Override
+	public String toString() {
+		return "CartVO [SCCode=" + SCCode + ", SCSCode=" + SCSCode + ", SCQuantity=" + SCQuantity + "]";
+	}
+	
+	
+	
+}

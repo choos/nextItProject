@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.zero.ufboard.dao.IUFBoardDao">
+
+	<sql id="whereSearchClause">
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchWord)
+					and @org.apache.commons.lang3.StringUtils@isNotBlank(searchType)">
+			<choose>
+				<when test='searchType == "T"'>
+					AND bo_title LIKE '%' || #{searchWord} || '%'
+				</when>
+				<when test='searchType == "W"'>
+					AND bo_writer LIKE '%' || #{searchWord} || '%'
+				</when>
+				<when test='searchType == "C"'>
+					AND bo_content LIKE '%' || #{searchWord} || '%'
+				</when>
+			</choose>
+		</if>
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchCategory)">
+			and bo_category = #{searchCategory}
+		</if>
+	</sql>
+
+
+  <select id="getBoard"
+				resultType="com.zero.ufboard.vo.UFBoardVO">
+  	SELECT
+			      UF_CODE ,UF_NUM ,UF_ID
+						,UF_TITLE ,UF_CATEGORY ,UF_MATER
+						,UF_RECIPE1 ,UF_RECIPE2 ,UF_RECIPE3
+						,UF_RECIPE4 ,UF_RECIPE5 ,UF_RECIPE6
+						,UF_RECIPE7 ,UF_RECIPE8 ,UF_RECIPE9
+						,UF_RECIPE10 ,UF_RECIPE11 ,UF_RECIPE12
+						,UF_RECIPE13 ,UF_RECIPE14 ,UF_RECIPE15
+						,UF_IMG1 ,UF_IMG2 ,UF_IMG3
+						,UF_IMG4 ,UF_IMG5 ,UF_IMG6
+						,UF_IMG7 ,UF_IMG8 ,UF_LINK
+						,UF_LOVE ,UF_HIT ,TO_CHAR(UF_REG_DATE,'YYYY.MM.DD') AS UF_REG_DATE
+						,TO_CHAR(UF_MOD_DATE,'YYYY.MM.DD') AS UF_MOD_DATE
+		FROM UF_BOARD
+   WHERE UF_NUM = #{ufNum}
+		and UF_DEL_YN = 'N'
+	
+	</select>
+
+
+
+	  			<select id="getBoardList"
+  							parameterType="com.zero.ufboard.vo.UFSearchVO"
+  							resultType="com.zero.ufboard.vo.UFBoardVO">
+
+  			<include refid="common.PRE_PAGING_QRY"/>
+					SELECT UF_NUM
+					    , UF_TITLE
+					    , UF_CATEGORY
+					    , UF_ID
+					    , TO_CHAR(UF_REG_DATE,'YYYY.MM.DD') AS UF_REG_DATE  
+					    , UF_HIT
+					    , UF_IMG1
+					FROM  UF_BOARD
+					WHERE UF_DEL_YN = 'N'
+					<include refid="whereSearchClause"/>
+
+
+					ORDER by UF_NUM
+					<include refid="common.POST_PAGING_QRY"/>
+				
+				
+  			</select>
+  			
+  			
+  			
+  			
+  			<select id="getBoardCount"
+  							parameterType="com.zero.ufboard.vo.UFSearchVO" 
+  							resultType="int">
+  				SELECT count(*) 
+					FROM  UF_BOARD
+					where UF_DEL_YN= 'N'					
+  			</select>
+  				
+  				<insert id="insertBoard" parameterType="com.zero.ufboard.vo.UFBoardVO" keyProperty="ufNum">
+  					<selectKey keyProperty="ufNum" resultType="int" order="BEFORE">
+  								select nvl(max(UF_NUM),0) +1 from uf_board
+  					</selectKey>
+  				
+  				
+<![CDATA[
+				INSERT INTO uf_board (
+					UF_CODE ,UF_NUM ,UF_ID
+					,UF_TITLE, UF_CATECODE ,UF_CATEGORY ,UF_MATER
+					,UF_RECIPE1 ,UF_RECIPE2 ,UF_RECIPE3
+					,UF_RECIPE4 ,UF_RECIPE5 ,UF_RECIPE6
+					,UF_RECIPE7 ,UF_RECIPE8 ,UF_RECIPE9
+					,UF_RECIPE10 ,UF_RECIPE11 ,UF_RECIPE12
+					,UF_RECIPE13 ,UF_RECIPE14 ,UF_RECIPE15
+					,UF_IMG1 ,UF_IMG2 ,UF_IMG3
+					,UF_IMG4 ,UF_IMG5 ,UF_IMG6
+					,UF_IMG7 ,UF_IMG8 ,UF_LINK
+					,UF_LOVE ,UF_HIT ,UF_REG_DATE
+					,UF_DEL_YN
+					) VALUES (
+					'U'||LPAD(#{ufNum},4,0) ,#{ufNum} ,#{ufId}
+					,#{ufTitle}, #{ufCatecode} ,#{ufCategory} ,#{ufMater}
+					,#{ufRecipe1} ,#{ufRecipe2} ,#{ufRecipe3}
+					,#{ufRecipe4} ,#{ufRecipe5} ,#{ufRecipe6}
+					,#{ufRecipe7} ,#{ufRecipe8} ,#{ufRecipe9}
+					,#{ufRecipe10} ,#{ufRecipe11} ,#{ufRecipe12}
+					,#{ufRecipe13} ,#{ufRecipe14} ,#{ufRecipe15}
+					,#{ufImg1} ,#{ufImg2} ,#{ufImg3}
+					,#{ufImg4} ,#{ufImg5} ,#{ufImg6}
+					,#{ufImg7} ,#{ufImg8} ,'<iframe width="500" height="350" src="https://www.youtube.com/embed/'||#{ufLink}||'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+					,0 ,0 ,sysdate
+					,'N' 
+) 								
+					]]> 
+					
+					
+				</insert>
+				
+	     <insert id="insertFile" parameterType="hashMap">
+	    
+				<![CDATA[
+				INSERT INTO uf_board (
+				
+				UF_IMG1 ,UF_IMG2 ,UF_IMG3
+					,UF_IMG4 ,UF_IMG5 ,UF_IMG6
+					,UF_IMG7 ,UF_IMG8
+					) Values (
+				 #{ufImg1} ,#{ufImg2} ,#{ufImg3}
+					,#{ufImg4} ,#{ufImg5} ,#{ufImg6}
+					,#{ufImg7} ,#{ufImg8}
+					)
+				]]>
+				</insert>
+				
+				
+				<update id="updateBoard" parameterType="com.zero.ufboard.vo.UFBoardVO">
+				<![CDATA[
+					UPDATE uf_board 
+						SET 
+						    UF_TITLE = #{ufTitle}
+             ,UF_CATECODE =  #{ufCatecode}
+             ,UF_CATEGORY =  #{ufCategory}
+             ,UF_MATER = #{ufMater}
+             ,UF_RECIPE1 = #{ufRecipe1}
+             ,UF_RECIPE2 = #{ufRecipe2}
+             ,UF_RECIPE3 = #{ufRecipe3}
+             ,UF_RECIPE4 = #{ufRecipe4}
+             ,UF_RECIPE5 = #{ufRecipe5}
+             ,UF_RECIPE6 = #{ufRecipe6}
+             ,UF_RECIPE7 = #{ufRecipe7} 
+             ,UF_RECIPE8 = #{ufRecipe8}
+             ,UF_RECIPE9 = #{ufRecipe9}
+             ,UF_RECIPE10 = #{ufRecipe10}
+             ,UF_RECIPE11 = #{ufRecipe11}
+             ,UF_RECIPE12 = #{ufRecipe12}
+             ,UF_RECIPE13 = #{ufRecipe13}
+             ,UF_RECIPE14 = #{ufRecipe14}
+             ,UF_RECIPE15 = #{ufRecipe15}
+             ,UF_IMG1 = #{ufImg1}
+             ,UF_IMG2 = #{ufImg2}
+             ,UF_IMG3 = #{ufImg3}
+             ,UF_IMG4 = #{ufImg4}
+             ,UF_IMG5 = #{ufImg5}
+             ,UF_IMG6 = #{ufImg6}
+             ,UF_IMG7 = #{ufImg7}
+             ,UF_IMG8 = #{ufImg8}
+             ,UF_LINK = '<iframe width="500" height="350" src="https://www.youtube.com/embed/'||#{ufLink}||'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+             ,UF_MOD_DATE = sysdate
+						WHERE 
+						    uf_num=#{ufNum}
+						    ]]>				
+  			</update>
+  	
+  			
+
+  			<update id="deleteBoard" parameterType="com.zero.ufboard.vo.UFBoardVO">
+  						UPDATE uf_board 
+								SET 
+								    uf_del_yn = 'Y' 
+								WHERE 
+								    uf_num = #{ufNum} 
+								    and uf_Id = #{ufId}
+  			</update>
+  </mapper>

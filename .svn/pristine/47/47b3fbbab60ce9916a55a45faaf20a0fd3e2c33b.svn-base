@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.shoppingCart.dao.ICartDao">
+
+	<!-- 반복적인 구문 재사용을 위해 sql 등록 사용 -->
+
+
+	<select id="getCarteList"
+		parameterType="String"
+		resultType="com.zero.purchase.vo.PurchaseVO">
+
+		SELECT
+		      sc_code
+		    , sc_s_code
+		    , sc_quantity
+		    , b.s_title
+		    , b.s_price
+		    , b.s_main_img
+		 FROM shopping_cart a, sales_board b
+		WHERE SC_CODE = #{userId}
+		      and a.sc_s_code = b.s_code
+
+
+
+	</select>
+</mapper>

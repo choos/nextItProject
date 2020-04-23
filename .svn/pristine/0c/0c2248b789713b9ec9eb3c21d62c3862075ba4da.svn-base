@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.purchase.dao.IPurchaseDao">
+
+	<!-- 반복적인 구문 재사용을 위해 sql 등록 사용 -->
+
+	<sql id="whereSearchClause">
+
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(startYY) and  @org.apache.commons.lang3.StringUtils@isNotBlank(endYY)">
+			and p_day between to_date(#{startYY} || #{startMM} ||
+			#{startDD},'YYMMDD') and to_date(#{endYY} || #{endMM} || #{endDD},
+			'YYMMDD')
+		</if>
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchBarPrdNm)">
+			and b.s_title like '%${searchBarPrdNm}%'
+		</if>
+
+	</sql>
+
+
+
+
+
+	<select id="getPurchaseList"
+		parameterType="com.zero.purchase.vo.PurchaseSearchVO"
+		resultType="com.zero.purchase.vo.PurchaseVO">
+
+		SELECT a.P_CODE
+		, TO_CHAR(a.P_DAY, 'YYYY-MM-DD') as P_DAY
+		, a.P_M_ID
+		, a.P_S_CODE
+		, a.P_QUANTITY
+		, a.P_DELIVERY
+		, a.P_DELIBERY_NUM
+		, a.p_arrivename
+		, a.p_arrivehp
+		, a.p_arrivezip
+		, a.p_arriveadd1
+		, a.p_arriveadd2
+		, a.p_memo
+		, a.p_addmileage
+		, a.p_paymoney
+		, b.S_TITLE as P_TITLE
+		, b.S_PRICE as P_PRICE
+		,
+		b.S_MAIN_IMG as P_IMAGE
+		FROM purchase_list a, (SELECT S_CODE
+		, S_TITLE
+		,
+		S_PRICE
+		, S_MAIN_IMG
+		FROM sales_board
+		) b
+		WHERE a.P_M_ID = #{userId}
+		and
+		b.S_CODE = a.P_S_CODE
+
+		<include refid="whereSearchClause" />
+
+
+	</select>
+
+
+
+</mapper>

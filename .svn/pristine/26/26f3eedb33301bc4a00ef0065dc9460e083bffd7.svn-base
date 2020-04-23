@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.zero.main.dao.IMainDao">
+  <!-- Main.xml -->
+  	<sql id="Search">
+		<if	test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchWord)
+			  	and @org.apache.commons.lang3.StringUtils@isNotBlank(searchType)">
+			<choose>
+				<when test='searchType eq "UF"'>
+					SELECT UF_CATEGORY
+						, UF_TITLE
+						, UF_CODE
+						, UF_ID
+						, UF_IMG1
+						, UF_HIT
+					FROM UF_BOARD
+				  WHERE UF_DEL_YN = 'N'
+					AND UF_TITLE like '%' || #{searchWord} || '%'
+				</when>
+				<when test='searchType eq "MF"'>
+					 SELECT MF_CODE
+					      , MF_CATEGORY
+				 	      , MF_NAME
+				 	      , MF_LOVE
+					      , MF_HIT
+					  FROM MF_BOARD
+					 WHERE MF_DEL_YN = 'N'
+					   AND MF_NAME like '%' || #{searchWord} || '%'
+				</when>
+				<when test='searchType == "SB"'>
+				SELECT S_TITLE
+					, S_CATEGORY
+					, S_PRICE
+					, S_MAIN_IMG
+					, S_LOVE
+				 FROM SALES_BOARD
+				WHERE S_TITLE like '%' || #{searchWord} || '%'
+				</when>
+			</choose>
+		</if>
+<!-- 		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchCategory)">
+			AND bo_category=#{searchCategory}
+		</if> -->
+	</sql>
+  	<sql id="CountSearch">
+		<if	test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchWord)
+			  	and @org.apache.commons.lang3.StringUtils@isNotBlank(searchType)">
+			<choose>
+				<when test='searchType eq "UF"'>
+				  FROM UF_BOARD
+				  WHERE UF_DEL_YN = 'N'
+					AND UF_TITLE like '%' || #{searchWord} || '%'
+				</when>
+				<when test='searchType eq "MF"'>
+				  FROM MF_BOARD
+			     WHERE MF_DEL_YN = 'N'
+				   AND MF_NAME like '%' || #{searchWord} || '%'
+				</when>
+				<when test='searchType == "SB"'>
+				  FROM SALES_BOARD
+				 WHERE S_TITLE like '%' || #{searchWord} || '%'
+				</when>
+			</choose>
+		</if>
+	</sql>
+  
+  
+  	<select id="getMainCount" resultType="int" parameterType="com.zero.main.wep.MainSearchVO">
+  	SELECT count(*) 
+	<include refid="CountSearch" />
+	 
+  	</select>
+  
+  
+  	<select id="getMFBoard" resultType="com.zero.mfboard.vo.MFBoardVO">
+		 <![CDATA[  SELECT mf_board.*
+					FROM 
+					       (
+					        SELECT
+					            mf_name
+					            , mf_code
+					            , mf_hit
+					        FROM mf_board
+					        WHERE mf_del_yn ='N'
+					        ORDER BY MF_HIT DESC
+					        ) mf_board
+					WHERE ROWNUM <= 5]]> 
+  	</select>
+  	<select id="getUFBoard" resultType="com.zero.ufboard.vo.UFBoardVO">
+		<![CDATA[  SELECT uf_board.*
+					FROM 
+					       (
+					        SELECT
+					            uf_title
+					            , uf_img1
+					            , uf_hit
+					            , UF_ID
+					        FROM uf_board
+					        WHERE uf_del_yn ='N'
+					        ORDER BY UF_HIT DESC
+					        ) uf_board
+					WHERE ROWNUM <= 5 ]]> 
+  	</select>
+  	
+  	<select id="getSalesBoard" resultType="com.zero.market.vo.MarketVO">
+  			<![CDATA[  SELECT SALES_BOARD.*
+					FROM 
+					       (
+					        SELECT S_CODE
+					             , S_MAIN_IMG
+					             , S_TITLE
+					             , S_LOVE
+					             , S_PRICE
+					        FROM SALES_BOARD
+					        ORDER BY S_LOVE DESC
+					        ) SALES_BOARD
+					WHERE ROWNUM <= 5 ]]> 
+  	</select>	
+  	
+  	
+  	<select id="removeMain">
+  	</select>
+  	
+  	<select id="getUFSearch" resultType="com.zero.ufboard.vo.UFBoardVO" parameterType="com.zero.main.wep.MainSearchVO">
+  	<include refid="common.PRE_PAGING_QRY" />
+  	<include refid="Search" />
+  	<include refid="common.POST_PAGING_QRY" />
+  	</select>
+  	
+  	<select id="getMFSearch" resultType="com.zero.mfboard.vo.MFBoardVO" parameterType="com.zero.main.wep.MainSearchVO">
+  	<include refid="common.PRE_PAGING_QRY" />
+  	<include refid="Search" />
+  	<include refid="common.POST_PAGING_QRY" />
+  	</select>
+  	
+  	<select id="getSBSearch" resultType="com.zero.market.vo.MarketVO" parameterType="com.zero.main.wep.MainSearchVO">
+  	<include refid="common.PRE_PAGING_QRY" />
+  	<include refid="Search" />
+  	<include refid="common.POST_PAGING_QRY" />
+  	</select>
+  
+  
+  
+  
+  </mapper>

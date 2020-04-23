@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- freBoardMapper.xml -->
+<!-- name는 해당 인터페이스 완전한 이름을 사용 -->
+
+<mapper namespace="com.zero.member.dao.IMemberDao">
+	<!-- 반복적인 구문 재사용을 위해 sql 등록 사용 -->
+	<!-- <sql id="whereSearchClause">
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchWord)
+									and @org.apache.commons.lang3.StringUtils@isNotBlank(searchType)">
+			<choose>
+				<when test='searchType == "T"'>
+					AND mem_id LIKE '%' || #{searchWord} || '%'
+				</when>
+				<when test='searchType == "W"'>
+					AND mem_name LIKE '%' || #{searchWord} || '%'
+				</when>
+			</choose>
+		</if>
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchJob)">
+			and mem_job = #{searchJob}
+		</if>
+	</sql> -->
+
+
+	<select id="getMemberCount"
+		parameterType="com.zero.member.vo.MemberSearchVO" resultType="int">
+		SELECT count(*)
+		FROM member
+		where mem_del_yn= 'N'
+		
+
+	</select>
+
+	<select id="getMemberList"
+		parameterType="com.zero.member.vo.MemberSearchVO"
+		resultType="com.zero.member.vo.MemberVO">
+
+		<include refid="common.PRE_PAGING_QRY" />
+		select mem_id
+		,mem_name
+		,mem_mileage
+		,mem_add1
+		,mem_add2
+		,MEM_DEL_YN
+		from member 
+		WHERE mem_del_yn = 'N'
+		order by mem_id asc
+
+<!-- 		<include refid="common.POST_PAGING_QRY" />
+ -->
+	</select>
+	<!-- 외부 유틸클래스의 메서드를 사용하시려면 @완전한이름클래스@메서드 -->
+
+
+
+	<select id="getMember" parameterType="String"
+		resultType="com.zero.member.vo.MemberVO">
+		SELECT
+		mem_id
+		, mem_pass
+		, mem_name
+		, mem_regno1
+		, mem_regno2
+		, mem_zip
+		, mem_add1
+		, mem_add2
+		, mem_hp
+		, mem_mail
+		, TO_CHAR(mem_bir, 'YYYY-MM-DD') AS mem_bir
+		, mem_mileage
+		, mem_del_yn
+		FROM member
+		WHERE mem_id = #{memId}
+		and mem_del_yn = 'N'
+	</select>
+
+	<insert id="insertMember"
+		parameterType="com.zero.member.vo.MemberVO">
+
+		<!-- <selectKey keyProperty="memId" resultType="int" order="BEFORE"> select 
+			seq_mem_board.nextval from dual </selectKey> -->
+
+		INSERT INTO member (
+		mem_id , mem_pass , mem_name
+		, mem_regno1 , mem_regno2 , mem_bir
+		, mem_zip , mem_add1 , mem_add2
+		, mem_hp , mem_mail
+		) VALUES (
+		#{memId} , #{memPass} , #{memName}
+		, #{memRegno1} , #{memRegno2} , #{memBir}
+		, #{memZip} , #{memAdd1} , #{memAdd2}
+		, #{memHp} , #{memMail}
+		)
+	</insert>
+
+
+
+
+
+	<update id="updateMember"
+		parameterType="com.zero.member.vo.MemberVO">
+		UPDATE member
+		SET mem_name = #{memName}
+		, mem_regno1 = #{memRegno1}
+		, mem_regno2 = #{memRegno2}
+		, mem_bir = #{memBir}
+		, mem_zip = #{memZip}
+		, mem_add1 = #{memAdd1}
+		, mem_add2 = #{memAdd2}
+		, mem_hp = #{memHp}
+		, mem_mail = #{memMail}
+		WHERE
+		mem_id = #{memId}
+		AND mem_pass = #{memPass}
+	</update>
+
+	<update id="deleteMember"
+		parameterType="com.zero.member.vo.MemberVO">
+		UPDATE member
+		SET mem_del_yn = 'Y'
+		WHERE mem_id = #{memId}
+		AND mem_pass = #{memPass}
+	</update>
+
+
+
+	<!-- 프리미티브형으로 된 배열 array 접근 -->
+	<!-- WHERE bo_num in (15,35,89,90) bo_num = 12 or bo_num = 30 -->
+</mapper>
+  	
+  	
+  	
+  	

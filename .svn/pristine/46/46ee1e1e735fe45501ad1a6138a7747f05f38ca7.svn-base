@@ -1,0 +1,22 @@
+package com.zero.ufboard.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.zero.common.exception.BizException;
+import com.zero.ufboard.vo.UFBoardVO;
+import com.zero.ufboard.vo.UFSearchVO;
+
+@Mapper
+public interface IUFBoardDao {
+	
+	public int getBoardCount(UFSearchVO searchVO) throws BizException;
+	
+	public List<UFBoardVO> getBoardList(UFSearchVO searchVO) throws SQLException;
+
+	public UFBoardVO getBoard(int ufNum) throws  SQLException;
+	/*리스트 받아서 */
+	/*VO 다오 서비스 서비스임플 컨트롤러*/
+}

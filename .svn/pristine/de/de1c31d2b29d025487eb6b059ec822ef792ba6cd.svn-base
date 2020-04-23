@@ -1,0 +1,18 @@
+package com.zero.common.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.zero.common.vo.CodeVO;
+import com.zero.ufboard.vo.UFBoardVO;
+
+
+@Mapper
+public interface ICommonCodeDao {
+	
+	List<CodeVO> getCodeListByParent(String code) throws SQLException;
+	
+	
+}

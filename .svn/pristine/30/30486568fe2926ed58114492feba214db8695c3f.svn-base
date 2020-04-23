@@ -1,0 +1,17 @@
+package com.zero.FAQ.service;
+
+import java.sql.SQLException;
+
+import com.zero.FAQ.vo.FAQVO;
+import com.zero.common.exception.BizException;
+
+public interface IFAQService {
+
+	public String getFAQList() throws BizException;
+
+	public void insertFAQRegist(FAQVO faqVO) throws BizException;
+    
+	public int updateFAQ(FAQVO faqVO) throws BizException;
+	    
+	public int deleteFAQ(FAQVO faqVO) throws BizException;
+}

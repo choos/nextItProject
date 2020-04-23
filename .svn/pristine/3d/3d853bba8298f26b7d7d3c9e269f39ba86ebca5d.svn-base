@@ -1,0 +1,50 @@
+package com.zero.FAQ.service;
+
+import java.sql.SQLException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zero.FAQ.dao.IFAQDao;
+import com.zero.FAQ.vo.FAQVO;
+import com.zero.common.exception.BizException;
+import com.zero.common.exception.BizRegistFailException;
+
+@Service
+public class FAQServiceImpl implements IFAQService {
+
+	@Autowired
+	IFAQDao faqdao;
+	
+	@Override
+	public String getFAQList() throws BizException {
+		try {
+			return faqdao.getFAQList();
+		} catch (SQLException e) {
+			throw new BizException("",e);
+		}	
+	}
+
+	@Override
+	public void insertFAQRegist(FAQVO faqVO) throws BizException {
+		try {
+			int res = faqdao.insertFAQRegist(faqVO);
+			if(res <1) {
+				throw new BizRegistFailException();
+			}
+		} catch (SQLException e) {
+			throw new BizException("", e);
+		}
+	}
+
+	@Override
+	public int updateFAQ(FAQVO faqVO) throws BizException {
+		return 0;
+	}
+
+	@Override
+	public int deleteFAQ(FAQVO faqVO) throws BizException {
+		return 0;
+	}
+
+}

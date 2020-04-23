@@ -1,0 +1,7 @@
+package com.zero.market.dao;
+
+public interface IMarketReviewDao {
+
+	
+	
+}
