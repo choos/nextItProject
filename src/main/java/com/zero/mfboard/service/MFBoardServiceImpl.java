@@ -1,0 +1,72 @@
+package com.zero.mfboard.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zero.common.exception.BizException;
+import com.zero.mfboard.dao.IMFBoardDao;
+import com.zero.mfboard.vo.MFBoardVO;
+import com.zero.mfboard.vo.MFSearchVO;
+
+@Service
+public class MFBoardServiceImpl implements IMFBoardService {
+
+	@Autowired
+	private IMFBoardDao mfboardDao;
+
+	@Override
+	public List<MFBoardVO> getMFBoardList(MFSearchVO searchVO) throws SQLException {
+		try {
+			return mfboardDao.getMFBoardList(searchVO);
+		} catch (SQLException e) {
+			throw new BizException("", e);
+		}
+	}
+
+	@Override
+	public MFBoardVO getMFBoard(String mfCode) throws SQLException {
+		try {
+			return mfboardDao.getMFBoard(mfCode);
+		} catch (SQLException e) {
+			throw new BizException("", e);
+		}
+	}
+
+	@Override
+	public int insertMarket(MFBoardVO mfboard) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateMarket(MFBoardVO mfboard) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteMarket(MFBoardVO mfboard) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void recommend(String mfCode) throws Exception {
+		mfboardDao.recommend(mfCode);
+	}
+
+	@Override
+	public void insertLike(MFBoardVO marketLike) throws Exception {
+		mfboardDao.insertLike(marketLike);
+	}
+
+	@Override
+	public int checkLike(MFBoardVO marketCheckLike) throws Exception {
+		// TODO Auto-generated method stub
+		return mfboardDao.checkLike(marketCheckLike);
+	}
+
+}
